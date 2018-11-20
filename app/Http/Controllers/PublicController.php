@@ -14,9 +14,10 @@ class PublicController extends Controller
         return view('welcome', compact('posts'));
     }
 
-    public function singlePost($id)
+    public function singlePost(Post $post)
     {
-        return view('singlePost');
+
+        return view('singlePost', compact('post'));
     }
 
     public function about()
