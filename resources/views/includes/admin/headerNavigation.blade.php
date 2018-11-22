@@ -12,19 +12,10 @@
     </a>
 
     <ul class="navbar-nav ml-auto">
-        {{-- <li class="nav-item d-md-down-none">
-            <a href="#">
-                <i class="fa fa-bell"></i>
-                <span class="badge badge-pill badge-danger">5</span>
-            </a>
-        </li>
-
-        <li class="nav-item d-md-down-none">
-            <a href="#">
-                <i class="fa fa-envelope-open"></i>
-                <span class="badge badge-pill badge-danger">5</span>
-            </a>
-        </li> --}}
+        
+        @if (Auth::user()->author)
+            <a href="{{ route('newPost') }}" class="btn btn-primary">New Post</a> |   
+        @endif
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
