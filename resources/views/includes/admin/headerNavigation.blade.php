@@ -26,7 +26,7 @@
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header">Account</div>
 
-                <a href="#" class="dropdown-item">
+                <a href="{{ route('userProfile') }}" class="dropdown-item">
                     <i class="fa fa-user"></i> Profile
                 </a>
 
