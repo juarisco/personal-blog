@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePost;
+use App\Comment;
 
 class AdminController extends Controller
 {
@@ -55,7 +56,18 @@ class AdminController extends Controller
 
     public function comments()
     {
-        return view('admin.comments');
+        $comments = Comment::all();
+
+        return view('admin.comments', compact('comments'));
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::where('id', $id)->first();
+        $comment->delete();
+
+        return back();
+
     }
 
     public function users()
