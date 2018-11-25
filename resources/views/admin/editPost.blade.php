@@ -51,7 +51,7 @@
 
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Edit Post</button>
+                                <button type="submit" class="btn btn-success">Update Post</button>
 
                             </div>
                         </form>
