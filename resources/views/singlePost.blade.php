@@ -34,12 +34,26 @@
                 <hr>
                 @foreach ($post->comments as $comment)
                     <p>{{ $comment->content }}</p>
-                    <br>
+                    {{-- <br> --}}
                     <p>
                         <small>by {{ $comment->user->name }}, on {{ $comment->created_at->toFormattedDateString() }}</small>
                     </p>
                     <hr>
                 @endforeach
+
+                @if (Auth::check())
+                    <form action="{{ route('newComment') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <textarea name="comment" id="" cols="30" rows="4" class="form-control" placeholder="Write something"></textarea>
+                            <input type="hidden" name="post" value="{{ $post->id }}">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Make Comment</button>
+                        </div>
+                    </form>
+                @endif
+
             </div>
         </div>
     </article>
