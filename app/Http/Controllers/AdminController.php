@@ -11,6 +11,7 @@ use App\Charts\DashboardChart;
 use App\Http\Requests\CreatePost;
 use App\Http\Requests\UserUpdate;
 use Illuminate\Support\Facades\Auth;
+use App\Product;
 
 class AdminController extends Controller
 {
@@ -141,7 +142,9 @@ class AdminController extends Controller
 
     public function products()
     {
+        $products = Product::all();
 
+        return view('admin.products', compact('products'));
     }
 
     public function newProduct()

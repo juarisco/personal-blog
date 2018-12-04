@@ -59,6 +59,12 @@ Route::prefix('admin')->group(function () {
 
     Route::get('products', 'AdminController@products')->name('adminProducts');
 
+    Route::get('products/new', 'AdminController@newProduct')->name('adminNewProduct');
+    Route::post('products/new', 'AdminController@newProductPost')->name('adminNewProduct');
+
+    Route::get('products/{id}', 'AdminController@editProduct')->name('adminEditProduct');
+    Route::post('products/{id}', 'AdminController@editProductPost')->name('adminEditProduct');
+
 });
 
 Route::prefix('shop')->group(function () {
