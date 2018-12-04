@@ -10,7 +10,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
             <h1>Laravel Blog</h1>
-            <span class="subheading">A personal blog powered by Laravel 5.6</span>
+            <span class="subheading">{{ remove_spaces('Personal blog powered by Laravel 5.6') }}</span>
             </div>
         </div>
         </div>
