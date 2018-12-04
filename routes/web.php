@@ -57,3 +57,7 @@ Route::prefix('admin')->group(function () {
     Route::post('users/{id}/delete', 'AdminController@deleteUser')->name('adminDeleteUser');
 
 });
+
+Route::prefix('shop')->group(function () {
+    Route::get('/', 'ShopController@index')->name('shop.index');
+});
