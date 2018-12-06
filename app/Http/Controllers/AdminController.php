@@ -12,6 +12,7 @@ use App\Http\Requests\CreatePost;
 use App\Http\Requests\UserUpdate;
 use Illuminate\Support\Facades\Auth;
 use App\Product;
+use App\Facade\PayPal;
 
 class AdminController extends Controller
 {
@@ -189,6 +190,7 @@ class AdminController extends Controller
 
     public function editProductPost(Request $request, $id)
     {
+        // $apiContext=PayPal::apiContext();
 
         $this->validate($request, [
             'title' => 'required|string',
