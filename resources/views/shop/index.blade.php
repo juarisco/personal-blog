@@ -16,4 +16,42 @@
         </div>
     </header>    
 
+        <!-- Main Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    @foreach ($products as $product)
+                        
+                        <div class="post-preview">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="{{ asset($product->thumbnail) }}" width="100" alt="">
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="{{ route('shop.singleProduct', $product->id) }}">
+                                        <h2 class="post-title">
+                                            {{ $product->title }}
+                                        </h2>
+                                    </a>
+                                    <p class="post-meta">
+                                        {{-- Posted on {{ $product->created_at->toFormattedDateString() }} --}}
+                                        ${{ $product->price }} USD
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+    
+                    @endforeach
+    
+                    <!-- Pager -->
+                    {{-- <div class="clearfix">
+                        <a class="btn btn-primary float-right" href="#">Older products &rarr;</a>
+                    </div> --}}
+    
+                    {{-- {{ $products->links() }} --}}
+                </div>
+            </div>
+        </div>
+        
 @endsection
