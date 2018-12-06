@@ -33,6 +33,8 @@ class ShopController extends Controller
 
     public function orderProduct($id)
     {
+        $product = Product::findOrFail($id);
+
         $apiContext = PayPal::apiContext();
 
         // require __DIR__ . '/../bootstrap.php';
@@ -56,29 +58,23 @@ class ShopController extends Controller
         // (Optional) Lets you specify item wise
         // information
         $item1 = new Item();
-        $item1->setName('Ground Coffee 40 oz')
+        $item1->setName($product->title)
             ->setCurrency('USD')
             ->setQuantity(1)
-            ->setSku("123123") // Similar to `item_number` in Classic API
-            ->setPrice(7.5);
-        $item2 = new Item();
-        $item2->setName('Granola bars')
-            ->setCurrency('USD')
-            ->setQuantity(5)
-            ->setSku("321321") // Similar to `item_number` in Classic API
-            ->setPrice(2);
+            ->setSku($product->id) // Similar to `item_number` in Classic API
+            ->setPrice($product->price);
 
         $itemList = new ItemList();
-        $itemList->setItems(array($item1, $item2));
+        $itemList->setItems(array($item1));
 
         // ### Additional payment details
         // Use this optional field to set additional
         // payment information such as tax, shipping
         // charges etc.
         $details = new Details();
-        $details->setShipping(1.2)
-            ->setTax(1.3)
-            ->setSubtotal(17.50);
+        $details->setShipping(2)
+            ->setTax(2)
+            ->setSubtotal($product->price);
 
         // ### Amount
         // Lets you specify a payment amount.
@@ -86,7 +82,7 @@ class ShopController extends Controller
         // such as shipping, tax.
         $amount = new Amount();
         $amount->setCurrency("USD")
-            ->setTotal(20)
+            ->setTotal($product->price + 4)
             ->setDetails($details);
 
         // ### Transaction
@@ -145,14 +141,18 @@ class ShopController extends Controller
         $approvalUrl = $payment->getApprovalLink();
 
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        print("Created Payment Using PayPal. Please visit the URL to Approve." . "<a href='" . $approvalUrl . "' >" . $approvalUrl . "</a>");
+        // print("Created Payment Using PayPal. Please visit the URL to Approve." . "<a href='" . $approvalUrl . "' >" . $approvalUrl . "</a>");
 
-        return $payment;
+        // return $payment;
+
+        return redirect($approvalUrl);
 
     }
 
-    public function excuteOrder()
+    public function excuteOrder($id)
     {
+        $product = Product::findOrFail($id);
+
         $apiContext = PayPal::apiContext();
 
         // ### Approval Status
@@ -182,13 +182,14 @@ class ShopController extends Controller
         $amount = new Amount();
         $details = new Details();
 
-        $details->setShipping(2.2)
-            ->setTax(1.3)
-            ->setSubtotal(17.50);
+        $details->setShipping(2)
+            ->setTax(2)
+            ->setSubtotal($product->price);
 
         $amount->setCurrency('USD');
-        $amount->setTotal(21);
+        $amount->setTotal($product->price + 4);
         $amount->setDetails($details);
+
         $transaction->setAmount($amount);
 
             // Add the above transaction object inside our Execution object.
