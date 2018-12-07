@@ -13,7 +13,9 @@ use PayPal\Api\ItemList;
 use PayPal\Api\Transaction;
 use Illuminate\Http\Request;
 use PayPal\Api\RedirectUrls;
+use App\Mail\SendMailPurchase;
 use PayPal\Api\PaymentExecution;
+use Mail;
 
 class ShopController extends Controller
 {
@@ -205,25 +207,21 @@ class ShopController extends Controller
 
             try {
                 $payment = Payment::get($paymentId, $apiContext);
+
+                $paymentInfo = json_decode($payment);
+
+                Mail::to($paymentInfo->payer->payer_info->email)
+                    ->bcc('webshop-admin@personal-blog.test')
+                    ->send(new SendMailPurchase($paymentInfo));
+
             } catch (\Exception $ex) {
-                    // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-                print("Get Payment 1");
-                exit(1);
+                return redirect()->route('shop.index');
             }
         } catch (\Exception $ex) {
-                // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            print("Executed Payment 2");
-            exit(1);
+            return redirect()->route('shop.index');
         }
 
-            // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        print("Get Payment 2" . $payment->getId());
+        return redirect()->route('shop.index');
 
-        return $payment;
-        // } else {
-        //     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        //     print("User Cancelled the Approval");
-        //     exit;
-        // }
     }
 }
